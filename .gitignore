@@ -1,0 +1,104 @@
+# Microsemi Libero SoC Project .gitignore
+# Generated for Libero v11.9 SP6
+
+# Libero project files that should be excluded
+*.prjx.bak
+*.prjx.old
+
+# Designer output files
+designer/*.log
+designer/*.rpt
+designer/*.pin
+designer/*.pdc_*
+designer/*.sdc_*
+designer/*.fdc_*
+designer/*.gcf
+designer/*.stp
+designer/*.tcl
+designer/impl*/
+designer/run*/
+
+# Synthesis output files
+synthesis/*.log
+synthesis/*.rpt
+synthesis/*.srr
+synthesis/*.hdp
+synthesis/*.prs
+synthesis/*.edn
+synthesis/*.vhm
+synthesis/*.vm
+synthesis/rev_*/
+synthesis/run*/
+
+# Simulation output files
+simulation/*.log
+simulation/*.wlf
+simulation/*.vstf
+simulation/work/
+simulation/transcript
+simulation/modelsim.ini
+simulation/wave.do
+simulation/run.do
+
+# SmartGen generated files
+smartgen/*/
+!smartgen/*/*.v
+!smartgen/*/*.vhd
+
+# CoreConsole generated files
+coreconsole/*/
+
+# Tool data and temporary files
+tooldata/*/
+*.bak
+*.tmp
+*.temp
+*.cache
+
+# ViewDraw files (usually generated)
+viewdraw/*.1
+viewdraw/*.err
+viewdraw/*.ps
+viewdraw/*.pdf
+
+# Constraint files that are typically generated
+constraint/*_derived*
+constraint/*_imp*
+constraint/*.sdc.bak
+
+# Programming files
+*.stp
+*.pro
+*.pdb
+
+# Reports and logs
+*.log
+*.rpt
+*.err
+
+# Temporary and backup files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Windows specific
+desktop.ini
+*.lnk
+
+# Editor specific
+.vscode/
+.idea/
+*.sublime-*
+
+# Custom additions - uncomment as needed
+# Add specific files you want to ignore
+# my_custom_file.txt
+# specific_directory/
+
+# Keep important source files (examples - adjust as needed)
+# !hdl/*.v
+# !hdl/*.vhd
+# !constraint/*.sdc
+# !constraint/*.pdc
