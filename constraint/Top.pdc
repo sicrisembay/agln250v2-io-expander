@@ -1,0 +1,16 @@
+# Microsemi Physical design constraints file
+# Version: 7.2 7.2.0.103
+# Input Netlist Format: edif
+
+
+#
+# I/O Constraints
+#
+
+# Button inputs
+set_io BTN1 -pinname 20 -fixed yes -iostd LVCMOS33
+#set_io BTN2 -pinname 21 -fixed yes -iostd LVCMOS33
+
+# LED output
+set_io LED1 -pinname 35 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+

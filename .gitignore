@@ -37,6 +37,7 @@ simulation/*.vstf
 simulation/work/
 simulation/transcript
 simulation/modelsim.ini
+simulation/modelsim.ini.sav
 simulation/wave.do
 simulation/run.do
 
@@ -50,6 +51,7 @@ coreconsole/*/
 
 # Tool data and temporary files
 tooldata/*/
+tooldata/libero.*
 *.bak
 *.tmp
 *.temp
