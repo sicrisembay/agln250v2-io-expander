@@ -44,95 +44,65 @@ ENDLIST
 LIST FileManager
 VALUE "<project>\component\work\DESIGN_FIRMWARE\DESIGN_FIRMWARE.cxf,actgen_cxf"
 STATE="utd"
-TIME="1759023906"
-SIZE="437"
 ENDFILE
 VALUE "<project>\component\work\DESIGN_IO\DESIGN_IO.cxf,actgen_cxf"
 STATE="utd"
-TIME="1759023907"
-SIZE="413"
 ENDFILE
 VALUE "<project>\component\work\Top\Top.cxf,actgen_cxf"
 STATE="utd"
-TIME="1759023907"
-SIZE="1529"
 ENDFILE
 VALUE "<project>\component\work\Top\Top.vhd,hdl"
 STATE="utd"
-TIME="1759023906"
-SIZE="1455"
 PARENT="<project>\component\work\Top\Top.cxf"
 IS_READONLY="TRUE"
 ENDFILE
 VALUE "<project>\constraint\Top.pdc,pdc"
 STATE="utd"
-TIME="1759028816"
-SIZE="361"
 ENDFILE
 VALUE "<project>\designer\impl1\Top.adb,adb"
 STATE="utd"
-TIME="1759028873"
-SIZE="25600"
 ENDFILE
 VALUE "<project>\designer\impl1\Top.ide_des,ide_des"
 STATE="utd"
-TIME="1759028873"
-SIZE="1169"
 ENDFILE
 VALUE "<project>\designer\impl1\Top.pdb,pdb"
 STATE="utd"
-TIME="1759028873"
-SIZE="34516"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_compile_log.rpt,log"
 STATE="utd"
-TIME="1759028827"
-SIZE="6166"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_fp\projectData\Top.pdb,pdb"
 STATE="utd"
-TIME="1759028957"
-SIZE="34516"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_fp\Top.pro,pro"
 STATE="utd"
-TIME="1759028957"
-SIZE="2395"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_placeroute_log.rpt,log"
 STATE="utd"
-TIME="1759028844"
-SIZE="2397"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_prgdata_log.rpt,log"
 STATE="utd"
-TIME="1759028873"
-SIZE="725"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_verifytiming_log.rpt,log"
 STATE="utd"
-TIME="1759028861"
-SIZE="1144"
+ENDFILE
+VALUE "<project>\hdl\i2c_slave.vhd,hdl"
+STATE="utd"
+ENDFILE
+VALUE "<project>\hdl\register_file.vhd,hdl"
+STATE="utd"
 ENDFILE
 VALUE "<project>\synthesis\Top.edn,syn_edn"
 STATE="utd"
-TIME="1759028484"
-SIZE="3285"
 ENDFILE
 VALUE "<project>\synthesis\Top.so,so"
 STATE="utd"
-TIME="1759028484"
-SIZE="228"
 ENDFILE
 VALUE "<project>\synthesis\Top_sdc.sdc,syn_sdc"
 STATE="utd"
-TIME="1759028484"
-SIZE="310"
 ENDFILE
 VALUE "<project>\synthesis\Top_syn.prj,prj"
 STATE="utd"
-TIME="1759028485"
-SIZE="1731"
 ENDFILE
 ENDLIST
 LIST UsedFile
@@ -143,8 +113,8 @@ FILE "<project>\component\work\Top\Top.vhd,hdl"
 LIST ProjectState5.1
 LIST Impl1
 LiberoState=Post_Layout
-ideDESIGNER(<project>\designer\impl1\Top.adb,adb)=StateSuccess
 ideSYNTHESIS(<project>\synthesis\Top.edn,syn_edn)=StateSuccess
+ideDESIGNER(<project>\designer\impl1\Top.adb,adb)=StateSuccess
 LIST FlowOptions
 UsePhySynth=FALSE
 UseSynth=TRUE
@@ -230,8 +200,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="C:\Microsemi\Libero_SoC_v11.9\SynplifyPro\bin\synplify_pro.exe"
-PARAM=""
-BATCH=0
+PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
+BATCH=1
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -267,8 +237,8 @@ LIST ProjectState5.1
 LIST "Top::work"
 LIST Impl1
 LiberoState=Post_Layout
-ideDESIGNER(<project>\designer\impl1\Top.adb,adb)=StateSuccess
 ideSYNTHESIS(<project>\synthesis\Top.edn,syn_edn)=StateSuccess
+ideDESIGNER(<project>\designer\impl1\Top.adb,adb)=StateSuccess
 LIST FlowOptions
 UsePhySynth=FALSE
 UseSynth=TRUE
@@ -289,20 +259,14 @@ LIST CDBOrder
 ENDLIST
 LIST UserCustomizedFileList
 ENDLIST
-LIST OpenedFileList
-ORIENTATION;HORIZONTAL
-Reports;Reports;0
-ReportsCurrentItem;Program Device:Top_program.log
-SmartDesign;Top;0
-HDL;component\work\Top\Top.vhd;0
-HDL;constraint\Top.pdc;0
-StartPage;StartPage;0
-ACTIVEVIEW;StartPage
-ENDLIST
 LIST ModuleSubBlockList
 LIST "DESIGN_FIRMWARE::work","component\work\DESIGN_FIRMWARE\DESIGN_FIRMWARE.cxf","TRUE","FALSE"
 ENDLIST
 LIST "DESIGN_IO::work","component\work\DESIGN_IO\DESIGN_IO.cxf","TRUE","FALSE"
+ENDLIST
+LIST "i2c_slave::work","hdl\i2c_slave.vhd","FALSE","FALSE"
+ENDLIST
+LIST "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
 ENDLIST
 LIST "Top::work","component\work\Top\Top.vhd","TRUE","FALSE"
 ENDLIST

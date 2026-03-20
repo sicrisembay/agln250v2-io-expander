@@ -9,8 +9,17 @@
 
 # Button inputs
 set_io BTN1 -pinname 20 -fixed yes -iostd LVCMOS33
-#set_io BTN2 -pinname 21 -fixed yes -iostd LVCMOS33
+set_io BTN2 -pinname 21 -fixed yes -iostd LVCMOS33
+set_io BTN3 -pinname 22 -fixed yes -iostd LVCMOS33
+set_io BTN4 -pinname 23 -fixed yes -iostd LVCMOS33
 
 # LED output
 set_io LED1 -pinname 35 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED2 -pinname 36 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED3 -pinname 40 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED4 -pinname 41 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED5 -pinname 42 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED6 -pinname 43 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED7 -pinname 44 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
+set_io LED8 -pinname 45 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW High -OUT_LOAD 5
 
