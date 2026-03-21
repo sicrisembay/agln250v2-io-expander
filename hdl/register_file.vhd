@@ -104,19 +104,14 @@ begin
         end if;
     end process;
     
-    -- Register read process
-    process(clk, rst_n)
+    -- Register read: combinatorial (asynchronous) output so the I2C slave can
+    -- sample the requested register value immediately without a pipeline bubble.
+    process(addr_int, registers)
     begin
-        if rst_n = '0' then
+        if addr_int < NUM_REGS then
+            reg_data_out <= registers(addr_int);
+        else
             reg_data_out <= (others => '0');
-        elsif rising_edge(clk) then
-            if reg_read = '1' then
-                if addr_int < NUM_REGS then
-                    reg_data_out <= registers(addr_int);
-                else
-                    reg_data_out <= (others => '0');  -- Invalid address
-                end if;
-            end if;
         end if;
     end process;
     

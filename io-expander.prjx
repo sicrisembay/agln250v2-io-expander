@@ -92,6 +92,15 @@ ENDFILE
 VALUE "<project>\hdl\register_file.vhd,hdl"
 STATE="utd"
 ENDFILE
+VALUE "<project>\simulation\run.do,do"
+STATE="utd"
+ENDFILE
+VALUE "<project>\simulation\tb_i2c_system_presynth_simulation.log,log"
+STATE="utd"
+ENDFILE
+VALUE "<project>\stimulus\tb_i2c_system.vhd,tb_hdl"
+STATE="utd"
+ENDFILE
 VALUE "<project>\synthesis\Top.edn,syn_edn"
 STATE="utd"
 ENDFILE
@@ -209,7 +218,7 @@ NAME="ModelSim ME"
 FUNCTION="Simulation"
 TOOL="ModelSim"
 LOCATION="C:\Microsemi\Libero_SoC_v11.9\Modelsim\win32acoem\modelsim.exe"
-PARAM=""
+PARAM=" -l tb_i2c_system_presynth_simulation.log "
 BATCH=0
 LICENSE=""
 IS32BIT="1"
@@ -269,6 +278,10 @@ ENDLIST
 LIST "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
 ENDLIST
 LIST "Top::work","component\work\Top\Top.vhd","TRUE","FALSE"
+ENDLIST
+LIST "tb_i2c_system::work","stimulus\tb_i2c_system.vhd","FALSE","TRUE"
+SUBBLOCK "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
+SUBBLOCK "i2c_slave::work","hdl\i2c_slave.vhd","FALSE","FALSE"
 ENDLIST
 ENDLIST
 LIST ActiveTestBenchList
