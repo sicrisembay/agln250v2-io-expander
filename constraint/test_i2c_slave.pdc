@@ -1,0 +1,39 @@
+# Physical Design Constraints �?? I2C Slave Hardware Test
+# Target: AGLN250V2-VQ100 (IGLOO Nano Starter Kit)
+# Design: test_i2c_slave
+
+#
+# Clock
+#
+set_io clk   -pinname 15 -fixed yes -iostd LVCMOS33
+
+#
+# User inputs (buttons are active-low; internal pull-up recommended)
+#
+set_io rst_n -pinname 20 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+set_io btn2  -pinname 21 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+set_io btn3  -pinname 22 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+set_io btn4  -pinname 23 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+
+#
+# I2C bus
+# SCL : input only �?? internal pull-up (bus pull-up also required externally)
+# SDA : bidirectional open-drain �?? internal pull-up on the pin input path;
+#       the VHDL tristate drives only '0' or 'Z' (never asserts '1')
+#
+set_io scl   -pinname 33 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+set_io sda   -pinname 34 -fixed yes -iostd LVCMOS33 -RES_PULL Up
+set_io dbg_scl -pinname 57 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io dbg_sda -pinname 76 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+
+#
+# Status LEDs (active-high, 8 mA drive, slow slew)
+#
+set_io led1  -pinname 35 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led2  -pinname 36 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led3  -pinname 40 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led4  -pinname 41 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led5  -pinname 42 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led6  -pinname 43 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led7  -pinname 44 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5
+set_io led8  -pinname 45 -fixed yes -iostd LVCMOS33 -OUT_DRIVE 8 -SLEW Low -OUT_LOAD 5

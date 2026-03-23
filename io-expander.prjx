@@ -36,7 +36,7 @@ KEY ProjectDescription ""
 KEY Pa4PeripheralNewSeq "GOOD"
 KEY SimulationType "VHDL"
 KEY Vendor "Actel"
-KEY ActiveRoot "Top::work"
+KEY ActiveRoot "test_i2c_slave::work"
 LIST REVISIONS
 VALUE="Impl1",NUM=1
 CURREV=1
@@ -56,16 +56,43 @@ STATE="utd"
 PARENT="<project>\component\work\Top\Top.cxf"
 IS_READONLY="TRUE"
 ENDFILE
+VALUE "<project>\constraint\test_i2c_slave.pdc,pdc"
+STATE="utd"
+ENDFILE
 VALUE "<project>\constraint\Top.pdc,pdc"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave.adb,adb"
+STATE="ood"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave.ide_des,ide_des"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave.pdb,pdb"
+STATE="ood"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_compile_log.rpt,log"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_fp\projectData\test_i2c_slave.pdb,pdb"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_fp\test_i2c_slave.pro,pro"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_placeroute_log.rpt,log"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_prgdata_log.rpt,log"
+STATE="utd"
+ENDFILE
+VALUE "<project>\designer\impl1\test_i2c_slave_verifytiming_log.rpt,log"
 STATE="utd"
 ENDFILE
 VALUE "<project>\designer\impl1\Top.adb,adb"
 STATE="utd"
 ENDFILE
 VALUE "<project>\designer\impl1\Top.ide_des,ide_des"
-STATE="utd"
-ENDFILE
-VALUE "<project>\designer\impl1\Top.pdb,pdb"
 STATE="utd"
 ENDFILE
 VALUE "<project>\designer\impl1\Top_compile_log.rpt,log"
@@ -77,19 +104,13 @@ ENDFILE
 VALUE "<project>\designer\impl1\Top_fp\Top.pro,pro"
 STATE="utd"
 ENDFILE
-VALUE "<project>\designer\impl1\Top_placeroute_log.rpt,log"
-STATE="utd"
-ENDFILE
-VALUE "<project>\designer\impl1\Top_prgdata_log.rpt,log"
-STATE="utd"
-ENDFILE
-VALUE "<project>\designer\impl1\Top_verifytiming_log.rpt,log"
-STATE="utd"
-ENDFILE
 VALUE "<project>\hdl\i2c_slave.vhd,hdl"
 STATE="utd"
 ENDFILE
 VALUE "<project>\hdl\register_file.vhd,hdl"
+STATE="utd"
+ENDFILE
+VALUE "<project>\hdl\test_i2c_slave.vhd,hdl"
 STATE="utd"
 ENDFILE
 VALUE "<project>\simulation\run.do,do"
@@ -99,6 +120,18 @@ VALUE "<project>\simulation\tb_i2c_system_presynth_simulation.log,log"
 STATE="utd"
 ENDFILE
 VALUE "<project>\stimulus\tb_i2c_system.vhd,tb_hdl"
+STATE="utd"
+ENDFILE
+VALUE "<project>\synthesis\test_i2c_slave.edn,syn_edn"
+STATE="ood"
+ENDFILE
+VALUE "<project>\synthesis\test_i2c_slave.so,so"
+STATE="utd"
+ENDFILE
+VALUE "<project>\synthesis\test_i2c_slave_sdc.sdc,syn_sdc"
+STATE="ood"
+ENDFILE
+VALUE "<project>\synthesis\test_i2c_slave_syn.prj,prj"
 STATE="utd"
 ENDFILE
 VALUE "<project>\synthesis\Top.edn,syn_edn"
@@ -132,10 +165,6 @@ ENDLIST
 Used_File_List
 ENDUsed_File_List
 ENDLIST
-ENDLIST
-LIST PinReports
-VALUE "<project>\designer\impl1\Top_report_pin_byname.txt,log"
-VALUE "<project>\designer\impl1\Top_report_pin_bynumber.txt,log"
 ENDLIST
 ENDLIST
 ENDLIST
@@ -209,8 +238,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="C:\Microsemi\Libero_SoC_v11.9\SynplifyPro\bin\synplify_pro.exe"
-PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
-BATCH=1
+PARAM=""
+BATCH=0
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -218,7 +247,7 @@ NAME="ModelSim ME"
 FUNCTION="Simulation"
 TOOL="ModelSim"
 LOCATION="C:\Microsemi\Libero_SoC_v11.9\Modelsim\win32acoem\modelsim.exe"
-PARAM=" -l tb_i2c_system_presynth_simulation.log "
+PARAM=""
 BATCH=0
 LICENSE=""
 IS32BIT="1"
@@ -277,11 +306,15 @@ LIST "i2c_slave::work","hdl\i2c_slave.vhd","FALSE","FALSE"
 ENDLIST
 LIST "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
 ENDLIST
+LIST "test_i2c_slave::work","hdl\test_i2c_slave.vhd","FALSE","FALSE"
+SUBBLOCK "i2c_slave::work","hdl\i2c_slave.vhd","FALSE","FALSE"
+SUBBLOCK "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
+ENDLIST
 LIST "Top::work","component\work\Top\Top.vhd","TRUE","FALSE"
 ENDLIST
 LIST "tb_i2c_system::work","stimulus\tb_i2c_system.vhd","FALSE","TRUE"
-SUBBLOCK "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
 SUBBLOCK "i2c_slave::work","hdl\i2c_slave.vhd","FALSE","FALSE"
+SUBBLOCK "register_file::work","hdl\register_file.vhd","FALSE","FALSE"
 ENDLIST
 ENDLIST
 LIST ActiveTestBenchList

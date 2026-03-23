@@ -160,6 +160,10 @@ begin
                     end if;
 
                 -- Receive 7-bit address + R/W bit (8 SCL rising edges)
+                -- Transition to ADDR_ACK only on the 8th SCL *falling* edge so
+                -- the slave never pulls SDA low while SCL is still high (which
+                -- would be misread as a START condition by the master).
+                -- ack_clk_seen is reused here as "all 8 bits sampled" flag.
                 when ADDR_RECEIVE =>
                     if scl_rising = '1' then
                         shift_reg <= shift_reg(6 downto 0) & sda_sync(1);
@@ -173,9 +177,12 @@ begin
                             else
                                 addr_match <= '0';
                             end if;
-                            ack_clk_seen <= '0';
-                            state <= ADDR_ACK;
+                            ack_clk_seen <= '1';  -- mark: wait for 8th falling
                         end if;
+                    end if;
+                    if scl_falling = '1' and ack_clk_seen = '1' then
+                        ack_clk_seen <= '0';
+                        state        <= ADDR_ACK;
                     end if;
 
                 -- Hold SDA low (ACK) or high (NACK) across 9th SCL clock
@@ -202,6 +209,8 @@ begin
                     end if;
 
                 -- Receive a byte: register pointer (first) or write data
+                -- Transition to DATA_ACK on the 8th SCL *falling* edge for the
+                -- same reason as ADDR_RECEIVE (avoid SDA-low while SCL-high).
                 when DATA_RECEIVE =>
                     if scl_rising = '1' then
                         shift_reg <= shift_reg(6 downto 0) & sda_sync(1);
@@ -213,9 +222,12 @@ begin
                             else
                                 data_buffer <= shift_reg(6 downto 0) & sda_sync(1);
                             end if;
-                            ack_clk_seen <= '0';
-                            state <= DATA_ACK;
+                            ack_clk_seen <= '1';  -- mark: wait for 8th falling
                         end if;
+                    end if;
+                    if scl_falling = '1' and ack_clk_seen = '1' then
+                        ack_clk_seen <= '0';
+                        state        <= DATA_ACK;
                     end if;
 
                 -- ACK the received byte; increment address for data bytes
