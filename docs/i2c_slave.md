@@ -71,7 +71,7 @@ These signals connect directly to the `register_file` module.
 
 ## State Machine
 
-The controller implements a 9-state Moore FSM.
+The controller implements a 10-state Moore FSM.
 
 ```
                     ┌──────────────────────────────────────────────────┐
@@ -90,7 +90,7 @@ The controller implements a 9-state Moore FSM.
           ┌─────────────────┐                                          │
           │  ADDR_RECEIVE   │ (8 SCL rising edges)                     │
           └────────┬────────┘                                          │
-                   │ bit_count = 7                                     │
+                   │ 8th SCL falling                                   │
                    ▼                                                   │
           ┌─────────────────┐                                          │
           │   ADDR_ACK      │──────────────────────────────────────────┘
@@ -104,12 +104,17 @@ The controller implements a 9-state Moore FSM.
  ┌────────────────┐  ┌────────────────┐
  │  DATA_RECEIVE  │  │   DATA_SEND    │
  └───────┬────────┘  └───────┬────────┘
-         │ bit_count=7       │ bit_count=7
+         │ 8th SCL falling   │ bit_count=7
          ▼                   ▼
  ┌────────────────┐  ┌─────────────────┐
  │   DATA_ACK     │  │ DATA_WAIT_ACK   │
  └───────┬────────┘  └────────┬────────┘
-         │ auto-increment      │ ACK → next reg
+         │ auto-increment      │ ACK → scl_falling
+         │                    ▼
+         │           ┌─────────────────┐
+         │           │ DATA_SEND_LOAD  │ (1-cycle staging)
+         │           └────────┬────────┘
+         │                    │ → DATA_SEND
          └────────────────────┘
 ```
 
@@ -119,12 +124,13 @@ The controller implements a 9-state Moore FSM.
 |-------------------|-------------------------------------------------------------------------------------------------|
 | `IDLE`            | Waiting for a start condition. All internal signals reset.                                      |
 | `START_DETECTED`  | Start condition latched; waits for the first SCL falling edge to begin bit reception.           |
-| `ADDR_RECEIVE`    | Shifts in 8 bits (7-bit address + R/W) on successive SCL rising edges.                         |
+| `ADDR_RECEIVE`    | Shifts in 8 bits (7-bit address + R/W) on successive SCL rising edges. Transitions to `ADDR_ACK` on the **8th SCL falling edge** (after all bits are sampled) to avoid driving SDA low while SCL is still high. |
 | `ADDR_ACK`        | Drives ACK (SDA low) if address matches `SLAVE_ADDR`, else drives NACK and returns to IDLE.    |
-| `DATA_RECEIVE`    | Shifts in 8 data bits. The first received byte after address sets the internal register pointer; subsequent bytes are write data. |
+| `DATA_RECEIVE`    | Shifts in 8 data bits. The first received byte after address sets the internal register pointer; subsequent bytes are write data. Transitions to `DATA_ACK` on the **8th SCL falling edge** for the same reason as `ADDR_RECEIVE`. |
 | `DATA_ACK`        | Drives ACK, increments register address (auto-increment), pulses `reg_write`.                  |
-| `DATA_SEND`       | Shifts out 8 data bits from `data_buffer` on SCL falling edges.                                |
-| `DATA_WAIT_ACK`   | Waits for master ACK/NACK. ACK → loads next register and continues; NACK → returns to IDLE.   |
+| `DATA_SEND`       | Shifts out 8 bits from `tx_shift_reg` MSB-first on successive SCL falling edges.               |
+| `DATA_SEND_LOAD`  | One-cycle staging state entered after master ACK in `DATA_WAIT_ACK`. Latches `reg_data_in` into `tx_shift_reg` (combinatorial register-file read is already valid) then transitions immediately to `DATA_SEND`. |
+| `DATA_WAIT_ACK`   | Waits for master ACK/NACK. ACK → increments address, defers to `DATA_SEND_LOAD` on SCL falling; NACK → returns to IDLE. |
 | `STOP_DETECTED`   | Stop condition detected; immediately transitions to IDLE.                                       |
 
 ---
@@ -177,8 +183,8 @@ The 8 bits received during `ADDR_RECEIVE` are: `[A6:A0, R/W]`.
 
 | Strobe      | Condition                                                                                             |
 |-------------|-------------------------------------------------------------------------------------------------------|
-| `reg_write` | Asserted for 1 clock cycle when `state = DATA_ACK`, `send_ack = '1'`, and `current_reg_addr ≠ 0x00` |
-| `reg_read`  | Asserted for 1 clock cycle on ADDR_ACK (first read) or DATA_WAIT_ACK (subsequent reads with ACK)     |
+| `reg_write` | Asserted for 1 clock cycle when `state = DATA_ACK`, `scl_rising = '1'`, and `reg_ptr_set = '1'` (i.e. this is a data byte, not the register pointer byte) |
+| `reg_read`  | Asserted for 1 clock cycle on `ADDR_ACK` rising edge (first read) or `DATA_WAIT_ACK` rising edge with master ACK (burst reads). Kept for interface compatibility — has no functional effect since `register_file` uses a combinatorial (asynchronous) read output. |
 
 ---
 
@@ -226,7 +232,7 @@ u_i2c_slave : entity work.i2c_slave
 - The `scl` input is treated as a pure clock-domain crossing input; the 3-stage synchronizer assumes the system clock is significantly faster than the I2C clock (recommended ≥ 4× the maximum SCL frequency).
 - `reg_addr` and `reg_data_out` are continuously driven (not registered output strobes); they are only valid when `reg_write` or `reg_read` is high.
 - The first byte received in a write transaction always sets the register pointer (`current_reg_addr`). Actual data bytes begin from the second received byte onward.
-- Read data (`reg_data_in`) must be stable one clock cycle after `reg_read` is asserted.
+- `reg_data_in` is read combinatorially: the register file's output updates immediately when `reg_addr` changes, so no additional pipeline latency needs to be accounted for. The `reg_read` strobe is provided for interface compatibility with future pipelined register-file variants.
 
 ---
 

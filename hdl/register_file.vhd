@@ -2,7 +2,7 @@
 -- Title       : Register File for I2C Slave
 -- Project     : I2C Slave Implementation
 -- File        : register_file.vhd
--- Author      : FPGA Designer
+-- Author      : Sicris Rey Embay
 -- Created     : July 27, 2025
 -- Description : Simple register file with read/write capabilities
 --               for use with I2C slave controller
@@ -59,7 +59,7 @@ architecture behavioral of register_file is
     
     -- Default values
     constant DEVICE_ID        : std_logic_vector(7 downto 0) := x"A5";  -- Device ID
-    constant VERSION_INFO     : std_logic_vector(7 downto 0) := x"01";  -- Version 1.0
+    constant VERSION_INFO     : std_logic_vector(7 downto 0) := x"10";  -- Version 1.0 (major (bit7:4) = 1, minor (bit3:0)=0)
 
 begin
 

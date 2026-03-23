@@ -2,9 +2,9 @@
 -- Title       : I2C Slave Controller
 -- Project     : I2C Slave Implementation
 -- File        : i2c_slave.vhd
--- Author      : FPGA Designer
+-- Author      : Sicris Rey Embay
 -- Created     : July 27, 2025
--- Modified    : March 21, 2026 - State-based SDA output; no send_ack register
+-- Modified    : March 23, 2026 - Delay ACK state entry to 8th SCL falling edge
 -- Description : Register-based I2C slave implementation
 --               Supports 7-bit addressing, repeated start, auto-increment reads
 --

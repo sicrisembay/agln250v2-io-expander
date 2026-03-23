@@ -40,7 +40,7 @@ These ports connect directly to the `i2c_slave` module.
 | `reg_data_in`  | in        | 8     | Write data from I2C slave                     |
 | `reg_data_out` | out       | 8     | Read data returned to I2C slave               |
 | `reg_write`    | in        | 1     | Write strobe — latches `reg_data_in` on rising edge |
-| `reg_read`     | in        | 1     | Read strobe — updates `reg_data_out` on rising edge |
+| `reg_read`     | in        | 1     | Read strobe — kept for interface compatibility; reads are combinatorial so this signal has no functional effect on `reg_data_out` |
 
 ### Application Interface
 
@@ -64,7 +64,7 @@ These ports expose selected registers to application logic in the surrounding de
 | `0x00`  | `ID_REG`      | Read-only   | `0xA5`      | Device identification byte. Hardcoded to `0xA5`.         |
 | `0x01`  | `CONTROL_REG` | Read/Write  | `0x00`      | Control register. Written by I2C master; read by application logic via `control_reg`. |
 | `0x02`  | `STATUS_REG`  | Read-only   | `0x00`      | Status register. Updated every clock cycle from the `status_reg` input port. Write attempts are ignored. |
-| `0x03`  | `VERSION_REG` | Read-only   | `0x01`      | Firmware version. Hardcoded to `0x01`.                   |
+| `0x03`  | `VERSION_REG` | Read-only   | `0x10`      | Firmware version. Hardcoded to `0x10` (major nibble = 1, minor nibble = 0 → v1.0). |
 | `0x04`  | `DATA_REG0`   | Read/Write  | `0x00`      | General-purpose data register 0.                         |
 | `0x05`  | `DATA_REG1`   | Read/Write  | `0x00`      | General-purpose data register 1.                         |
 | `0x06`  | `DATA_REG2`   | Read/Write  | `0x00`      | General-purpose data register 2.                         |
@@ -103,11 +103,12 @@ On every rising clock edge:
 
 ### Read Process
 
-On every rising clock edge when `reg_read = '1'`:
-- `reg_data_out` is loaded from `registers(addr_int)`.
-- If `addr_int >= NUM_REGS`, `reg_data_out` is set to `0x00`.
+`reg_data_out` is driven **combinatorially** (asynchronously) from `registers(addr_int)`. There is no clock-edge dependency and no pipeline latency: the output updates immediately whenever `reg_addr` or any register content changes.
 
-Read data is registered (one-cycle latency after the `reg_read` strobe).
+- If `addr_int < NUM_REGS`: `reg_data_out <= registers(addr_int)`
+- Otherwise: `reg_data_out <= 0x00`
+
+The `reg_read` strobe is present on the port for interface compatibility but is not used in the read path.
 
 ### Reset Behaviour
 
